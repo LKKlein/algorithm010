@@ -5,6 +5,9 @@
  */
 
 // @lc code=start
+
+// tag: 哈希表
+// 哈希表存储每一个遍历过的节点
 func twoSum(nums []int, target int) []int {
 	m := make(map[int]int)
 	for i, v := range nums {

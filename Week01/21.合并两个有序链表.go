@@ -12,8 +12,9 @@
  *     Next *ListNode
  * }
  */
+
+ // tag: 递归
 func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-	// 递归
 	if l1 == nil {return l2}
 	if l2 == nil {return l1}
 	if l1.Val < l2.Val {
@@ -25,8 +26,9 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 	}
 }
 
-func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-	// 循环
+// tag: 循环
+// 需要保留一个头节点，用于返回
+func mergeTwoLists2(l1 *ListNode, l2 *ListNode) *ListNode {
 	var head *ListNode = &ListNode{Val: 0}
 	var cur *ListNode = head_node
 	for l1 != nil && l2 != nil {

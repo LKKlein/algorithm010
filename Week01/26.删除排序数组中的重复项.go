@@ -5,6 +5,8 @@
  */
 
 // @lc code=start
+
+// 依次查找重复组与下一组重复的交界点，将最后一个重复数字挪到前面
 func removeDuplicates(nums []int) int {
 	total := len(nums) - 1
 	if total <= 0 {

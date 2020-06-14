@@ -5,14 +5,14 @@
  */
 
 // @lc code=start
-import "fmt"
 
+// 数组实现
 type MyCircularDeque struct {
-	data []int
-	head int
-	tail int
-	size int
-	capacity int
+	data []int  // 存放所有元素，大小为k+1，多一个用于判断队空
+	head int    // 头指针
+	tail int    // 尾指针
+	size int    // 存放总空间大小
+	capacity int  // 可容纳的元素个数，等于size - 1
 }
 
 
@@ -33,7 +33,6 @@ func (this *MyCircularDeque) InsertFront(value int) bool {
 	if this.IsFull() {
 		return false
 	}
-	fmt.Println("head", this.head, this.tail, this.data)
 	this.head = (this.head + this.size - 1) % this.size
 	this.data[this.head] = value
 	return true
@@ -45,9 +44,8 @@ func (this *MyCircularDeque) InsertLast(value int) bool {
 	if this.IsFull() {
 		return false
 	}
-	fmt.Println("tail", this.head, this.tail, this.data)
-	this.tail = (this.tail + 1) % this.size
 	this.data[this.tail] = value
+	this.tail = (this.tail + 1) % this.size
 	return true
 }
 
@@ -57,7 +55,6 @@ func (this *MyCircularDeque) DeleteFront() bool {
 	if this.IsEmpty() {
 		return false
 	}
-	fmt.Println("d-h", this.head, this.tail, this.data)
 	this.head = (this.head + 1) % this.size
 	return true
 }
@@ -68,7 +65,6 @@ func (this *MyCircularDeque) DeleteLast() bool {
 	if this.IsEmpty() {
 		return false
 	}
-	fmt.Println("d-l", this.head, this.tail, this.data)
 	this.tail = (this.tail + this.size - 1) % this.size
 	return true
 }
@@ -79,7 +75,6 @@ func (this *MyCircularDeque) GetFront() int {
 	if this.IsEmpty() {
 		return -1
 	}
-	fmt.Println("g-h", this.head, this.tail, this.data)
 	return this.data[this.head]
 }
 
@@ -89,8 +84,7 @@ func (this *MyCircularDeque) GetRear() int {
 	if this.IsEmpty() {
 		return -1
 	}
-	fmt.Println("g-l", this.head, this.tail, this.data)
-	return this.data[this.tail]
+	return this.data[(this.tail + this.size - 1) % this.size]
 }
 
 
@@ -119,5 +113,3 @@ func (this *MyCircularDeque) IsFull() bool {
  * param_8 := obj.IsFull();
  */
 // @lc code=end
-
-// ["MyCircularDeque","insertFront","getRear","insertFront","getRear","insertLast","getFront","getRear","getFront","insertLast","deleteLast","getFront"]\n[[3],[9],[],[9],[],[5],[],[],[],[8],[],[]]
