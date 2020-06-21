@@ -155,17 +155,17 @@ class Tree():
 
 ```python3
 def bfs(root):
-		queue = [root]
-		visited = []   # 图遍历必写，防止访问重复点
-		while queue:
-				node = queue.pop(0)
-				visited.append(node)
-				# 相关处理
-				process(node)
-				# 获取相邻的节点
-				nodes = generate_relate_nodes(node)
-				for n in nodes:
-						queue.append(n)
+    queue = [root]
+    visited = []   # 图遍历必写，防止访问重复点
+    while queue:
+        node = queue.pop(0)
+        visited.append(node)
+        # 相关处理
+        process(node)
+        # 获取相邻的节点
+        nodes = generate_relate_nodes(node)
+        for n in nodes:
+            queue.append(n)
 ```
 
 
@@ -175,15 +175,15 @@ def bfs(root):
 ```python3
 visited = set()
 def dfs(node, visited):
-		if node in visited:
-				return
-				
-		visited.add(node)
-		# 相关处理
-		process(node)
-		for next_node in node.children():
-				if next_node not in visited:
-						dfs(next_node, visited)
+    if node in visited:
+        return
+            
+    visited.add(node)
+    # 相关处理
+    process(node)
+    for next_node in node.children():
+        if next_node not in visited:
+            dfs(next_node, visited)
 ```
 
 
