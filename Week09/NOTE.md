@@ -25,6 +25,36 @@ RK 算法的思路是这样的：我们通过哈希算法对主串中的 n-m+1 �
 
 ```java
 
+private static final int SIZE = 256; // 全局变量或成员变量
+private void generateBC(char[] b, int m, int[] bc) {
+  for (int i = 0; i < SIZE; ++i) {
+    bc[i] = -1; // 初始化bc
+  }
+  for (int i = 0; i < m; ++i) {
+    int ascii = (int)b[i]; // 计算b[i]的ASCII值
+    bc[ascii] = i;
+  }
+}
+
+
+// b表示模式串，m表示长度，suffix，prefix数组事先申请好了
+private void generateGS(char[] b, int m, int[] suffix, boolean[] prefix) {
+  for (int i = 0; i < m; ++i) { // 初始化
+    suffix[i] = -1;
+    prefix[i] = false;
+  }
+  for (int i = 0; i < m - 1; ++i) { // b[0, i]
+    int j = i;
+    int k = 0; // 公共后缀子串长度
+    while (j >= 0 && b[j] == b[m-1-k]) { // 与b[0, m-1]求公共后缀子串
+      --j;
+      ++k;
+      suffix[k] = j+1; //j+1表示公共后缀子串在b[0, i]中的起始下标
+    }
+    if (j == -1) prefix[k] = true; //如果公共后缀子串也是模式串的前缀子串
+  }
+}
+
 // a,b表示主串和模式串；n，m表示主串和模式串的长度。
 public int bm(char[] a, int n, char[] b, int m) {
   int[] bc = new int[SIZE]; // 记录模式串中每个字符最后出现的位置
