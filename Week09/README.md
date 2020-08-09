@@ -8,4 +8,101 @@
 - (*i*, *j*)上有障碍物，dp[ i ] [ j ] = 0
 
 
+## 字符串匹配算法
 
+### BF算法
+
+作为最简单、最暴力的字符串匹配算法，BF 算法的思想可以用一句话来概括，那就是，我们在主串中，检查起始位置分别是 0、1、2…n-m 且长度为 m 的 n-m+1 个子串，看有没有跟模式串匹配的。
+
+### RK算法
+
+RK 算法的思路是这样的：我们通过哈希算法对主串中的 n-m+1 个子串分别求哈希值，然后逐个与模式串的哈希值比较大小。如果某个子串的哈希值与模式串相等，那就说明对应的子串和模式串匹配了（这里先不考虑哈希冲突的问题，后面我们会讲到）。因为哈希值是一个数字，数字之间比较是否相等是非常快速的，所以模式串和子串比较的效率就提高了。
+
+
+### BM 算法
+
+坏字符规则 + 好后缀规则
+
+```java
+
+// a,b表示主串和模式串；n，m表示主串和模式串的长度。
+public int bm(char[] a, int n, char[] b, int m) {
+  int[] bc = new int[SIZE]; // 记录模式串中每个字符最后出现的位置
+  generateBC(b, m, bc); // 构建坏字符哈希表
+  int[] suffix = new int[m];
+  boolean[] prefix = new boolean[m];
+  generateGS(b, m, suffix, prefix);
+  int i = 0; // j表示主串与模式串匹配的第一个字符
+  while (i <= n - m) {
+    int j;
+    for (j = m - 1; j >= 0; --j) { // 模式串从后往前匹配
+      if (a[i+j] != b[j]) break; // 坏字符对应模式串中的下标是j
+    }
+    if (j < 0) {
+      return i; // 匹配成功，返回主串与模式串第一个匹配的字符的位置
+    }
+    int x = j - bc[(int)a[i+j]];
+    int y = 0;
+    if (j < m-1) { // 如果有好后缀的话
+      y = moveByGS(j, m, suffix, prefix);
+    }
+    i = i + Math.max(x, y);
+  }
+  return -1;
+}
+
+// j表示坏字符对应的模式串中的字符下标; m表示模式串长度
+private int moveByGS(int j, int m, int[] suffix, boolean[] prefix) {
+  int k = m - 1 - j; // 好后缀长度
+  if (suffix[k] != -1) return j - suffix[k] +1;
+  for (int r = j+2; r <= m-1; ++r) {
+    if (prefix[m-r] == true) {
+      return r;
+    }
+  }
+  return m;
+}
+```
+
+### KMP算法
+
+```java
+
+// a, b分别是主串和模式串；n, m分别是主串和模式串的长度。
+public static int kmp(char[] a, int n, char[] b, int m) {
+  int[] next = getNexts(b, m);
+  int j = 0;
+  for (int i = 0; i < n; ++i) {
+    while (j > 0 && a[i] != b[j]) { // 一直找到a[i]和b[j]
+      j = next[j - 1] + 1;
+    }
+    if (a[i] == b[j]) {
+      ++j;
+    }
+    if (j == m) { // 找到匹配模式串的了
+      return i - m + 1;
+    }
+  }
+  return -1;
+}
+
+
+// b表示模式串，m表示模式串的长度
+private static int[] getNexts(char[] b, int m) {
+  int[] next = new int[m];
+  next[0] = -1;
+  int k = -1;
+  for (int i = 1; i < m; ++i) {
+    while (k != -1 && b[k + 1] != b[i]) {
+      k = next[k];
+    }
+    if (b[k + 1] == b[i]) {
+      ++k;
+    }
+    next[i] = k;
+  }
+  return next;
+}
+
+```
+ 
