@@ -58,7 +58,7 @@
 
 这里给一张各个算法的访问、查询、插入、删除的最坏、平均时间复杂度的总结图。
 
-![](/Users/klein/Documents/works/algorithm010/data_structure_time_complexity.png)
+![](data_structure_time_complexity.png)
 
 ## 算法思想
 
@@ -84,7 +84,7 @@
 
 5. 排序算法
 
-   ![](/Users/klein/Documents/works/algorithm010/array_sort_complexity.png)
+   ![](array_sort_complexity.png)
 
 6. 二分查找
 
